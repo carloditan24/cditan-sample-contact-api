@@ -14,7 +14,7 @@ module.exports = app => {
         Contact.findById(req.params.id, (err, contact) => {
             if (err) return next(err);
             res.json(contact);
-        })    
+        })
     });
 
     // POST /api/contacts
@@ -30,7 +30,9 @@ module.exports = app => {
 
     // PUT /api/contacts/:id
     app.put('/api/contacts/:id', (req, res, next) => {
-        Contact.findByIdAndUpdate(req.params.id, req.body, {new: true}, (err, contact) => {
+        Contact.findByIdAndUpdate(req.params.id, req.body, {
+            new: true
+        }, (err, contact) => {
             if (err) return next(err);
             res.json({
                 message: 'Contact updated!',

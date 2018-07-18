@@ -22,7 +22,7 @@ app.use(bodyParser.json({
     type: 'application/json'
 }));
 
-require("./contact/routes")(app);
+require("./contact/index")(app);
 
 app.use(function (err, req, res, next) {
     if (err.name === 'MongoError') {
