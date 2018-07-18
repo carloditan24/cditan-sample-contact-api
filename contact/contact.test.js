@@ -1,14 +1,12 @@
 process.env.NODE_ENV = 'test';
 process.env.PORT = 5000;
 
-const mongoose = require("mongoose");
 const Contact = require('./contact');
 
 const chai = require('chai');
 const factories = require('chai-factories');
 const chaiHttp = require('chai-http');
 const server = require('../index');
-const should = chai.should();
 
 chai.use(factories);
 chai.use(chaiHttp);
@@ -63,13 +61,15 @@ describe('Contacts', () => {
             const contact = new Contact(chai.create('contact'));
             contact.save((err, contact) => {
                 chai.request(server)
-                .post('/api/contacts')
-                .send(chai.create('contact', {'contact_number': '09111234567'}))
-                .end((err, res) => {
-                    res.should.have.status(422);
-                    res.body.should.have.property('errmsg');
-                    done();
-                });
+                    .post('/api/contacts')
+                    .send(chai.create('contact', {
+                        'contact_number': '09111234567'
+                    }))
+                    .end((err, res) => {
+                        res.should.have.status(422);
+                        res.body.should.have.property('errmsg');
+                        done();
+                    });
             });
         });
 
@@ -77,13 +77,15 @@ describe('Contacts', () => {
             const contact = new Contact(chai.create('contact'));
             contact.save((err, contact) => {
                 chai.request(server)
-                .post('/api/contacts')
-                .send(chai.create('contact', {'email_address': 'john1@doe.com'}))
-                .end((err, res) => {
-                    res.should.have.status(422);
-                    res.body.should.have.property('errmsg');
-                    done();
-                });
+                    .post('/api/contacts')
+                    .send(chai.create('contact', {
+                        'email_address': 'john1@doe.com'
+                    }))
+                    .end((err, res) => {
+                        res.should.have.status(422);
+                        res.body.should.have.property('errmsg');
+                        done();
+                    });
             });
         });
     });
@@ -93,18 +95,18 @@ describe('Contacts', () => {
             const contact = new Contact(chai.create('contact'));
             contact.save((err, contact) => {
                 chai.request(server)
-                .get('/api/contacts/' + contact.id)
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object');
-                    res.body.should.have.property('first_name');
-                    res.body.should.have.property('last_name');
-                    res.body.should.have.property('address');
-                    res.body.should.have.property('contact_number');
-                    res.body.should.have.property('email_address');
-                    res.body.should.have.property('_id').eql(contact.id);
-                    done();
-                });
+                    .get('/api/contacts/' + contact.id)
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.a('object');
+                        res.body.should.have.property('first_name');
+                        res.body.should.have.property('last_name');
+                        res.body.should.have.property('address');
+                        res.body.should.have.property('contact_number');
+                        res.body.should.have.property('email_address');
+                        res.body.should.have.property('_id').eql(contact.id);
+                        done();
+                    });
             });
         });
     });
@@ -114,16 +116,19 @@ describe('Contacts', () => {
             const contact = new Contact(chai.create('contact'));
             contact.save((err, contact) => {
                 chai.request(server)
-                .put('/api/contacts/' + contact.id)
-                .send(chai.create('contact', {first_name: 'Johnny', last_name: 'English'}))
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object');
-                    res.body.should.have.property('message').eql('Contact updated!');
-                    res.body.contact.should.have.property('first_name').eql('Johnny');
-                    res.body.contact.should.have.property('last_name').eql('English');
-                    done();
-                });
+                    .put('/api/contacts/' + contact.id)
+                    .send(chai.create('contact', {
+                        first_name: 'Johnny',
+                        last_name: 'English'
+                    }))
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.a('object');
+                        res.body.should.have.property('message').eql('Contact updated!');
+                        res.body.contact.should.have.property('first_name').eql('Johnny');
+                        res.body.contact.should.have.property('last_name').eql('English');
+                        done();
+                    });
             });
         });
     });
@@ -133,14 +138,14 @@ describe('Contacts', () => {
             const contact = new Contact(chai.create('contact'));
             contact.save((err, contact) => {
                 chai.request(server)
-                .delete('/api/contacts/' + contact.id)
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.have.a('object');
-                    res.body.should.have.property('message').eql('Contact deleted!');
-                    res.body.contact.should.have.property('_id').eql(contact.id);
-                    done();
-                });
+                    .delete('/api/contacts/' + contact.id)
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.have.a('object');
+                        res.body.should.have.property('message').eql('Contact deleted!');
+                        res.body.contact.should.have.property('_id').eql(contact.id);
+                        done();
+                    });
             });
         })
     })

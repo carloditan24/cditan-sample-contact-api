@@ -9,19 +9,23 @@ require("./contact/contact");
 
 mongoose.connect(config.DBHost);
 
-if(config.util.getEnv('NODE_ENV') !== 'test') {
+if (config.util.getEnv('NODE_ENV') !== 'test') {
     app.use(morgan('combined'));
 }
 
-app.use(bodyParser.json());                                     
-app.use(bodyParser.urlencoded({extended: true}));               
-app.use(bodyParser.text());                                    
-app.use(bodyParser.json({ type: 'application/json'}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.text());
+app.use(bodyParser.json({
+    type: 'application/json'
+}));
 
 require("./contact/routes")(app);
 
 app.use(function (err, req, res, next) {
-    if(err.name === 'MongoError') {
+    if (err.name === 'MongoError') {
         res.status(422).send(err);
     }
     res.status(500).send('500 - Something went wrong!');
