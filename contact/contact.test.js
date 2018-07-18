@@ -138,6 +138,7 @@ describe('Contacts', () => {
                     res.should.have.status(200);
                     res.body.should.have.a('object');
                     res.body.should.have.property('message').eql('Contact deleted!');
+                    res.body.contact.should.have.property('_id').eql(contact.id);
                     done();
                 });
             });
